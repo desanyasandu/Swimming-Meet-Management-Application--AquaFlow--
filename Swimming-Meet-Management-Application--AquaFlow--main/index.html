@@ -879,12 +879,31 @@
                     <div class="form-group"><label>Event 2</label><select class="sw-event-sel" id="sw-ev-2" onchange="filterAvailableEvents()" onkeydown="if(event.key==='Enter'){event.preventDefault(); document.getElementById('sw-time-2').focus();}"></select><input type="text" class="seed-time-input" id="sw-time-2" onfocus="if(this.value==='0' || this.value==='NT') this.value=''; this.select();" onblur="formatSeedTime(this)" onkeydown="if(event.key==='Enter'){event.preventDefault(); document.getElementById('sw-ev-3').focus();}"></div>
                     <div class="form-group"><label>Event 3</label><select class="sw-event-sel" id="sw-ev-3" onchange="filterAvailableEvents()" onkeydown="if(event.key==='Enter'){event.preventDefault(); document.getElementById('sw-time-3').focus();}"></select><input type="text" class="seed-time-input" id="sw-time-3" onfocus="if(this.value==='0' || this.value==='NT') this.value=''; this.select();" onblur="formatSeedTime(this)" onkeydown="if(event.key==='Enter'){event.preventDefault(); document.getElementById('btn-sw-save').focus();}"></div>
                 </div>
-                <div style="display:flex; justify-content:space-between;">
-                    <button class="btn btn-secondary" onclick="clearSwimmerForm()">Clear Form</button>
-                    <button class="btn btn-primary" id="btn-sw-save" onclick="addSwimmer()">Register Swimmer</button>
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-top:1.5rem;">
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <input type="checkbox" id="sw-auto-export-excel" style="width:16px; height:16px; cursor:pointer;">
+                        <label for="sw-auto-export-excel" style="font-size:0.85rem; color:var(--text-dim); cursor:pointer;">
+                            📊 Auto-Export Excel file upon registration
+                        </label>
+                    </div>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                        <button class="btn btn-secondary" onclick="clearSwimmerForm()">Clear Form</button>
+                        <button class="btn btn-secondary" style="background:#107c41; color:white; border:none;" onclick="exportAthletesToExcel()">
+                            <ion-icon name="document-text-outline"></ion-icon> Export Athletes Excel
+                        </button>
+                        <button class="btn btn-primary" id="btn-sw-save" onclick="addSwimmer()">Register Swimmer</button>
+                    </div>
                 </div>
             </div>
-            <div class="card"><div class="table-responsive"><table><thead><tr><th>Name</th><th>School</th><th>Group</th><th>Events</th><th style="width:100px;">Action</th></tr></thead><tbody id="swimmer-table-body"></tbody></table></div></div>
+            <div class="card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                    <h3 style="margin:0;">Registered Athletes</h3>
+                    <button class="btn btn-sm" style="background:#107c41; color:white;" onclick="exportAthletesToExcel()">
+                        <ion-icon name="download-outline"></ion-icon> Download Excel Sheet (.xlsx)
+                    </button>
+                </div>
+                <div class="table-responsive"><table><thead><tr><th>Name</th><th>School</th><th>Group</th><th>Events</th><th style="width:100px;">Action</th></tr></thead><tbody id="swimmer-table-body"></tbody></table></div>
+            </div>
         </div>
 
         <div id="seeding" class="content-container">
@@ -1668,7 +1687,57 @@
             }
             
             saveData(); renderSwimmers(); clearSwimmerForm();
+            if (document.getElementById('sw-auto-export-excel')?.checked) {
+                exportAthletesToExcel();
+            }
             showToast(id ? "Swimmer Updated" : "Swimmer Registered");
+        }
+
+        function exportAthletesToExcel() {
+            if (!state.swimmers || state.swimmers.length === 0) {
+                showToast("No athlete data registered to export!");
+                return;
+            }
+
+            const swData = state.swimmers.map(s => {
+                const ev1 = state.events.find(e => e.no === s.evs[0]?.no);
+                const ev2 = state.events.find(e => e.no === s.evs[1]?.no);
+                const ev3 = state.events.find(e => e.no === s.evs[2]?.no);
+
+                return {
+                    "Full Name": s.full || '',
+                    "Short Name": s.short || '',
+                    "Date of Birth": s.dob || '',
+                    "Birth Certificate No": s.bcno || '',
+                    "Class": s.class || '',
+                    "Admission No": s.admno || '',
+                    "National ID / Other ID": s.idno || '',
+                    "Gender": s.gender || '',
+                    "School": s.school || '',
+                    "Age Group": s.age || '',
+                    "Event 1": ev1 ? `Ev ${ev1.no}: ${ev1.name}` : (s.evs[0]?.no ? `Ev ${s.evs[0].no}` : ''),
+                    "Seed Time 1": s.evs[0]?.t || '',
+                    "Event 2": ev2 ? `Ev ${ev2.no}: ${ev2.name}` : (s.evs[1]?.no ? `Ev ${s.evs[1].no}` : ''),
+                    "Seed Time 2": s.evs[1]?.t || '',
+                    "Event 3": ev3 ? `Ev ${ev3.no}: ${ev3.name}` : (s.evs[2]?.no ? `Ev ${s.evs[2].no}` : ''),
+                    "Seed Time 3": s.evs[2]?.t || ''
+                };
+            });
+
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.json_to_sheet(swData);
+            
+            const colWidths = [
+                { wch: 25 }, { wch: 18 }, { wch: 14 }, { wch: 18 },
+                { wch: 8 },  { wch: 14 }, { wch: 18 }, { wch: 10 },
+                { wch: 25 }, { wch: 14 }, { wch: 25 }, { wch: 12 },
+                { wch: 25 }, { wch: 12 }, { wch: 25 }, { wch: 12 }
+            ];
+            ws['!cols'] = colWidths;
+
+            XLSX.utils.book_append_sheet(wb, ws, "Athlete Database");
+            XLSX.writeFile(wb, `${state.settings.meetName || 'AquaFlow'}_Athlete_Database.xlsx`);
+            showToast("Athlete Data Exported to Excel!");
         }
 
         function editSwimmer(id) {
