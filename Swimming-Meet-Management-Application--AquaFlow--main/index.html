@@ -275,23 +275,360 @@
             font-weight: 700;
         }
 
-        /* Toast notifications */
+        /* ============================================================
+           VIBRANT WATER LIQUID BUTTON (Clear Text & Fluid Wave Effect)
+        ============================================================ */
+        .water-btn {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            color: #ffffff !important;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            border-radius: 14px;
+            padding: 0.8rem 1.6rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            isolation: isolate;
+            transition: transform 0.2s cubic-bezier(0.34, 1.35, 0.64, 1), box-shadow 0.3s ease, filter 0.2s ease;
+            box-shadow: 0 4px 18px rgba(2, 132, 199, 0.4);
+            background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .water-btn::before {
+            content: '';
+            width: 280px;
+            height: 280px;
+            background: rgba(255, 255, 255, 0.22);
+            z-index: -1;
+            position: absolute;
+            left: -40%;
+            top: -210px;
+            border-radius: 40%;
+            animation: liquid-animate 6s linear infinite;
+            pointer-events: none;
+        }
+
+        .water-btn::after {
+            content: '';
+            width: 280px;
+            height: 280px;
+            background: rgba(56, 189, 248, 0.35);
+            z-index: -1;
+            position: absolute;
+            left: -40%;
+            top: -215px;
+            border-radius: 45%;
+            animation: liquid-animate 6s linear 1s infinite;
+            pointer-events: none;
+        }
+
+        .water-btn.water-green {
+            background: linear-gradient(135deg, #107c41 0%, #22c55e 100%);
+            box-shadow: 0 4px 18px rgba(16, 124, 65, 0.4);
+        }
+        .water-btn.water-green::after {
+            background: rgba(134, 239, 172, 0.3);
+        }
+
+        .water-btn.water-ghost {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .water-btn.water-ghost::before {
+            background: rgba(255, 255, 255, 0.08);
+        }
+        .water-btn.water-ghost::after {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .water-btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.12);
+            box-shadow: 0 8px 25px rgba(2, 132, 199, 0.55);
+        }
+        .water-btn:active {
+            transform: scale(0.97);
+            filter: brightness(0.95);
+        }
+
+        @keyframes liquid-animate {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+
+        /* ============================================================
+           SUCCESS CHECK ANIMATION — Transitions.dev (vanilla port)
+        ============================================================ */
+        :root {
+            --check-opacity-dur: 500ms;
+            --check-rotate-dur: 500ms;
+            --check-rotate-from: 80deg;
+            --check-bob-dur: 500ms;
+            --check-y-amount: 30px;
+            --check-blur-dur: 500ms;
+            --check-blur-from: 8px;
+            --check-path-dur: 500ms;
+            --check-path-delay: 80ms;
+            --check-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+            --check-ease-opacity: cubic-bezier(0.22, 1, 0.36, 1);
+            --check-ease-rotate: cubic-bezier(0.22, 1, 0.36, 1);
+            --check-ease-bob: cubic-bezier(0.34, 1.35, 0.64, 1);
+            --check-ease-path: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .t-success-check {
+            display: inline-block;
+            transform-origin: center;
+            opacity: 0;
+            will-change: transform, opacity, filter;
+        }
+        .t-success-check svg { display: block; overflow: visible; }
+        .t-success-check svg path {
+            stroke-dasharray: 20;
+            stroke-dashoffset: 20;
+        }
+        .t-success-check[data-state="in"] {
+            animation:
+                t-check-fade   var(--check-opacity-dur) var(--check-ease-opacity) forwards,
+                t-check-rotate var(--check-rotate-dur)  var(--check-ease-rotate)  forwards,
+                t-check-blur   var(--check-blur-dur)    var(--check-ease-out)     forwards,
+                t-check-bob    var(--check-bob-dur)     var(--check-ease-bob)     forwards;
+        }
+        .t-success-check[data-state="in"] svg path {
+            animation: t-check-draw var(--check-path-dur) var(--check-ease-path) var(--check-path-delay, 0ms) forwards;
+        }
+        @keyframes t-check-fade   { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes t-check-rotate {
+            from { transform: rotate(var(--check-rotate-from)); }
+            to   { transform: rotate(0deg); }
+        }
+        @keyframes t-check-blur {
+            from { filter: blur(var(--check-blur-from)); }
+            to   { filter: blur(0); }
+        }
+        @keyframes t-check-bob {
+            from { translate: 0 var(--check-y-amount); }
+            to   { translate: 0 0; }
+        }
+        @keyframes t-check-draw { to { stroke-dashoffset: 0; } }
+        @media (prefers-reduced-motion: reduce) {
+            .t-success-check { animation: none !important; opacity: 1; }
+            .t-success-check svg path { animation: none !important; stroke-dashoffset: 0 !important; }
+        }
+
+        /* Toast notifications — upgraded with success check */
         .toast {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 1rem 2rem;
-            background: var(--bg-card);
-            border: 1px solid var(--primary);
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transform: translateY(100px);
-            transition: 0.4s;
+            bottom: 24px;
+            right: 24px;
+            padding: 0.85rem 1.5rem;
+            background: rgba(11, 28, 56, 0.92);
+            border: 1px solid rgba(56, 189, 248, 0.45);
+            border-radius: 16px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.55), 0 0 0 1px rgba(56,189,248,0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            transform: translateY(120px);
+            opacity: 0;
+            transition: transform 0.45s cubic-bezier(0.34, 1.35, 0.64, 1),
+                        opacity   0.35s ease;
             z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 220px;
+            max-width: 360px;
         }
-        .toast.show { transform: translateY(0); }
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .toast-text { font-weight: 600; font-size: 0.95rem; color: #f8fafc; }
+        #toast-check-icon { flex-shrink: 0; }
 
-        /* HY-TEK Report Styles */
+        /* ============================================================
+           1. 🏊‍♂️ INTERACTIVE 3D POOL LANE VISUALIZER STYLES
+        ============================================================ */
+        .pool-visualizer {
+            position: relative;
+            background: linear-gradient(180deg, #033454 0%, #07192e 100%);
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 30px rgba(2, 132, 199, 0.3);
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+        .pool-water-overlay {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 30%, rgba(56, 189, 248, 0.15), transparent 70%);
+            pointer-events: none;
+        }
+        .pool-lanes-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            position: relative;
+            z-index: 1;
+        }
+        .pool-lane-row {
+            display: flex;
+            align-items: center;
+            background: rgba(11, 28, 54, 0.65);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 8px 14px;
+            gap: 14px;
+            transition: all 0.3s ease;
+        }
+        .pool-lane-row:hover {
+            background: rgba(14, 165, 233, 0.18);
+            border-color: rgba(56, 189, 248, 0.4);
+            transform: translateX(4px);
+        }
+        .pool-block-number {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+            color: #fff;
+            font-weight: 800;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(2, 132, 199, 0.4);
+            flex-shrink: 0;
+        }
+        .pool-swimmer-info {
+            flex-grow: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .pool-swimmer-name { font-weight: 700; font-size: 1rem; color: #f8fafc; }
+        .pool-swimmer-meta { font-size: 0.8rem; color: #94a3b8; }
+        .pool-seed-badge {
+            font-family: monospace;
+            font-weight: 700;
+            color: #38bdf8;
+            background: rgba(56, 189, 248, 0.12);
+            padding: 4px 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(56, 189, 248, 0.25);
+        }
+
+        /* ============================================================
+           2. 🌊 LIQUID FILL STAT CARDS
+        ============================================================ */
+        .stat-card-water {
+            position: relative;
+            overflow: hidden;
+            background: rgba(15, 34, 64, 0.65) !important;
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(56, 189, 248, 0.25) !important;
+        }
+        .stat-card-water::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40%;
+            background: linear-gradient(180deg, rgba(14, 165, 233, 0.12) 0%, rgba(2, 132, 199, 0.25) 100%);
+            border-top: 1px solid rgba(56, 189, 248, 0.3);
+            pointer-events: none;
+            z-index: 0;
+            animation: wave-pulse 4s ease-in-out infinite alternate;
+        }
+        @keyframes wave-pulse {
+            from { height: 35%; opacity: 0.7; }
+            to   { height: 45%; opacity: 1; }
+        }
+        .stat-card-water * { position: relative; z-index: 1; }
+
+        /* ============================================================
+           3. 🥇 3D SHIMMER TROPHY & MEDAL BADGES
+        ============================================================ */
+        .medal-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .medal-badge.gold {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+            color: #0f172a;
+            box-shadow: 0 0 14px rgba(245, 158, 11, 0.5);
+            animation: medal-shimmer 2.5s infinite;
+        }
+        .medal-badge.silver {
+            background: linear-gradient(135deg, #f1f5f9 0%, #cbd5e1 50%, #94a3b8 100%);
+            color: #0f172a;
+            box-shadow: 0 0 12px rgba(203, 213, 225, 0.4);
+        }
+        .medal-badge.bronze {
+            background: linear-gradient(135deg, #f97316 0%, #d97706 50%, #78350f 100%);
+            color: #ffffff;
+            box-shadow: 0 0 12px rgba(217, 119, 6, 0.4);
+        }
+        @keyframes medal-shimmer {
+            0%, 100% { filter: brightness(1); }
+            50%      { filter: brightness(1.25); }
+        }
+
+        /* ============================================================
+           4. ⏱️ LIVE OCEAN DIGITAL SCOREBOARD TIMER
+        ============================================================ */
+        #clock {
+            background: rgba(3, 18, 38, 0.85);
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            padding: 6px 16px;
+            border-radius: 14px;
+            font-family: monospace;
+            font-size: 1.05rem;
+            color: #38bdf8;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.25), inset 0 0 10px rgba(2, 132, 199, 0.3);
+            text-shadow: 0 0 8px rgba(56, 189, 248, 0.7);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ============================================================
+           5. 💎 GLASSMORPHIC FLOATING MODAL OVERLAYS
+        ============================================================ */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(7, 19, 38, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.96); }
+            to   { opacity: 1; transform: scale(1); }
+        }
         .report-header { text-align: center; border-bottom: 2px solid var(--glass-border); margin-bottom: 10px; padding-bottom: 10px; color: var(--text-main); }
         .report-header h2 { font-size: 1.4rem; font-weight: 700; margin: 0; }
         .report-header p { font-size: 0.9rem; margin: 2px 0; }
@@ -318,7 +655,7 @@
         }
 
         @media print {
-            @page { size: portrait; margin: 1cm; }
+            @page { size: A4 portrait; margin: 0.6cm 0.6cm 0.6cm 0.6cm; }
             body { background: white; color: black; overflow: visible !important; }
             .sidebar, .btn, .nav-link, .toast, .no-print, #clock, #login-screen { display: none !important; }
             .main-content { padding: 0 !important; margin: 0 !important; width: 100% !important; height: auto !important; overflow: visible !important; }
@@ -326,13 +663,13 @@
             .content-container.active { display: block !important; }
             .card { border: none !important; box-shadow: none !important; background: white !important; padding: 0 !important; margin: 0 !important; width: 100% !important; }
             .table-responsive { overflow: visible !important; border: none !important; }
-            table { width: 100% !important; border-collapse: collapse !important; }
-            th, td { color: black !important; border-bottom: 1px solid #ddd !important; -webkit-print-color-adjust: exact; }
-            .hytek-table { border: 1px solid black !important; font-size: 10pt !important; width: 100% !important; table-layout: auto !important; }
-            .hytek-table th { border: 1px solid black !important; padding: 6px 4px !important; background-color: #f0f0f0 !important; -webkit-print-color-adjust: exact; word-wrap: break-word; }
-            .hytek-table td { padding: 4px !important; border: 1px solid black !important; vertical-align: top !important; word-wrap: break-word; }
-            .report-header { margin-bottom: 20px !important; border-bottom: 2px solid black !important; padding-bottom: 10px !important; }
-            .hytek-event-title { background-color: #e0e0e0 !important; border: 1px solid black !important; -webkit-print-color-adjust: exact; padding: 5px 10px !important; }
+            table { width: 100% !important; max-width: 100% !important; table-layout: fixed !important; border-collapse: collapse !important; }
+            th, td { color: black !important; border-bottom: 1px solid #ddd !important; -webkit-print-color-adjust: exact; box-sizing: border-box !important; }
+            .hytek-table { border: 1px solid black !important; font-size: var(--report-font-size, 9pt) !important; width: 100% !important; table-layout: fixed !important; word-break: break-word !important; }
+            .hytek-table th { border: 1px solid black !important; padding: 5px 3px !important; background-color: #f0f0f0 !important; -webkit-print-color-adjust: exact; word-wrap: break-word !important; overflow-wrap: break-word !important; }
+            .hytek-table td { padding: 4px 3px !important; border: 1px solid black !important; vertical-align: top !important; word-wrap: break-word !important; overflow-wrap: break-word !important; }
+            .report-header { margin-bottom: 15px !important; border-bottom: 2px solid black !important; padding-bottom: 8px !important; }
+            .hytek-event-title { background-color: #e0e0e0 !important; border: 1px solid black !important; -webkit-print-color-adjust: exact; padding: 4px 8px !important; }
             .printable { display: block !important; }
         }
 
@@ -472,7 +809,9 @@
                     <label>Password</label>
                     <input type="password" id="login-pass" value="aqua@2026" placeholder="Enter password" onkeydown="if(event.key==='Enter') handleLogin()">
                 </div>
-                <button class="login-btn" onclick="handleLogin()">Sign In</button>
+                <button class="login-btn water-btn water-primary" style="width:100%; padding:1.1rem; font-size:1.1rem; border-radius:16px;" onclick="handleLogin()">
+                    <ion-icon name="water-outline"></ion-icon> Sign In
+                </button>
             </div>
             <p style="margin-top: 2rem; font-size: 0.85rem; color: var(--text-dim);">AquaFlow v3.0 | Swimming Meet Management System</p>
         </div>
@@ -547,31 +886,31 @@
             </header>
             
             <div class="grid">
-                <div class="card">
+                <div class="card stat-card-water">
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         <div>
                             <p style="color:var(--text-dim); font-size:0.9rem;">Total Swimmers</p>
                             <h2 id="stat-swimmers" style="font-size:2.5rem; margin:10px 0;">0</h2>
                         </div>
-                        <ion-icon name="people" style="font-size:3rem; color:var(--primary); opacity:0.3;"></ion-icon>
+                        <ion-icon name="people" style="font-size:3rem; color:var(--primary); opacity:0.4;"></ion-icon>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card stat-card-water">
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         <div>
                             <p style="color:var(--text-dim); font-size:0.9rem;">Schools Registered</p>
                             <h2 id="stat-schools" style="font-size:2.5rem; margin:10px 0;">0</h2>
                         </div>
-                        <ion-icon name="business" style="font-size:3rem; color:var(--accent-boy); opacity:0.3;"></ion-icon>
+                        <ion-icon name="business" style="font-size:3rem; color:var(--accent-boy); opacity:0.4;"></ion-icon>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card stat-card-water">
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         <div>
                             <p style="color:var(--text-dim); font-size:0.9rem;">Active Events</p>
                             <h2 id="stat-events" style="font-size:2.5rem; margin:10px 0;">0</h2>
                         </div>
-                        <ion-icon name="flash" style="font-size:3rem; color:var(--accent-girl); opacity:0.3;"></ion-icon>
+                        <ion-icon name="flash" style="font-size:3rem; color:var(--accent-girl); opacity:0.4;"></ion-icon>
                     </div>
                 </div>
             </div>
@@ -625,7 +964,7 @@
                     <h1>Main Settings</h1>
                     <p class="subtitle">Configure meet parameters and points system</p>
                 </div>
-                <button class="btn btn-primary" onclick="saveSettings()">
+                <button class="btn water-btn water-primary" onclick="saveSettings()">
                     <ion-icon name="save-outline"></ion-icon> Save Configuration
                 </button>
             </header>
@@ -659,6 +998,15 @@
                             <select id="set-team-label">
                                 <option value="School">School</option>
                                 <option value="House">House</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Report & Print Font Size</label>
+                            <select id="set-report-font-size" onchange="applyReportFontSize(this.value)">
+                                <option value="8pt">Small (8pt)</option>
+                                <option value="9pt" selected>Standard (9pt)</option>
+                                <option value="10pt">Medium (10pt)</option>
+                                <option value="11pt">Large (11pt)</option>
                             </select>
                         </div>
                     </div>
@@ -784,7 +1132,7 @@
                     <datalist id="school-names-list"></datalist>
                     <div class="form-group"><label>Zonal</label><input type="text" id="sch-zone"></div>
                     <div style="display:flex; gap:10px;">
-                        <button class="btn btn-primary" style="flex:2;" id="btn-sch-save" onclick="addSchool()">Add School</button>
+                        <button class="btn water-btn water-primary" style="flex:2;" id="btn-sch-save" onclick="addSchool()">Add School</button>
                         <button class="btn btn-secondary" style="flex:1;" onclick="clearSchoolForm()">Clear</button>
                     </div>
                 </div>
@@ -816,8 +1164,8 @@
                     <div class="form-group" style="margin:0"><label>Age</label><select id="ev-age"><option>Under 12</option><option>Under 14</option><option>Under 16</option><option>Under 18</option><option>Under 20</option></select></div>
                     
                     <div class="form-group" style="margin:0"><label>Event Name</label><input type="text" id="ev-name" placeholder="e.g. 100m Free / 100m Sprint / Long Jump"></div>
-                    <button class="btn btn-primary" id="btn-ev-save" onclick="addEvent()">Add</button>
-                    <button class="btn btn-secondary" onclick="clearEventForm()">Clear</button>
+                    <button class="btn water-btn water-primary" id="btn-ev-save" onclick="addEvent()">Add</button>
+                    <button class="btn water-btn water-ghost" onclick="clearEventForm()">Clear</button>
                 </div>
                 
                 <div style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; padding:10px; background:rgba(var(--primary-rgb), 0.05); border-radius:8px; border:1px solid var(--glass-border);" class="no-print">
@@ -887,11 +1235,11 @@
                         </label>
                     </div>
                     <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                        <button class="btn btn-secondary" onclick="clearSwimmerForm()">Clear Form</button>
-                        <button class="btn btn-secondary" style="background:#107c41; color:white; border:none;" onclick="exportAthletesToExcel()">
+                        <button class="btn water-btn water-ghost" onclick="clearSwimmerForm()">Clear Form</button>
+                        <button class="btn water-btn water-green" onclick="exportAthletesToExcel()">
                             <ion-icon name="document-text-outline"></ion-icon> Export Athletes Excel
                         </button>
-                        <button class="btn btn-primary" id="btn-sw-save" onclick="addSwimmer()">Register Swimmer</button>
+                        <button class="btn water-btn water-primary" id="btn-sw-save" onclick="addSwimmer()">Register Swimmer</button>
                     </div>
                 </div>
             </div>
@@ -902,7 +1250,7 @@
                         <ion-icon name="download-outline"></ion-icon> Download Excel Sheet (.xlsx)
                     </button>
                 </div>
-                <div class="table-responsive"><table><thead><tr><th>Name</th><th>School</th><th>Group</th><th>Events</th><th style="width:100px;">Action</th></tr></thead><tbody id="swimmer-table-body"></tbody></table></div>
+                <div class="table-responsive"><table><thead><tr><th>Name</th><th>Gender</th><th>School</th><th>Age Group</th><th>Events</th><th style="width:100px;">Action</th></tr></thead><tbody id="swimmer-table-body"></tbody></table></div>
             </div>
         </div>
 
@@ -1042,7 +1390,15 @@
         </div>
     </main>
 
-    <div class="toast" id="toast"></div>
+    <div class="toast" id="toast">
+        <span id="toast-check-icon" class="t-success-check" data-state="out" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="11" cy="11" r="10" stroke="rgba(56,189,248,0.5)" stroke-width="1.5" fill="none"/>
+                <path d="M6.5 11.5L9.5 14.5L15.5 8.5" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </span>
+        <span class="toast-text" id="toast-text"></span>
+    </div>
 
     <script>
         // --- Authentication Logic ---
@@ -1115,7 +1471,21 @@
                 username: 'admin',
                 password: 'aqua@2026'
             },
-            schools: [], events: [], swimmers: [], results: {}, records: {}
+            schools: [], events: [], swimmers: [], results: {}, records: {},
+            // Standard World Aquatics / FINA Base Times Database (in seconds for Base 1000 pts)
+            worldRecords: {
+                "50 free": { boys: 20.91, girls: 23.61 },
+                "100 free": { boys: 46.80, girls: 51.71 },
+                "200 free": { boys: 102.00, girls: 112.98 },
+                "400 free": { boys: 220.07, girls: 235.38 },
+                "50 back": { boys: 23.71, girls: 26.86 },
+                "100 back": { boys: 51.60, girls: 57.13 },
+                "50 breast": { boys: 25.95, girls: 29.30 },
+                "100 breast": { boys: 56.88, girls: 64.13 },
+                "50 fly": { boys: 22.27, girls: 24.43 },
+                "100 fly": { boys: 49.45, girls: 55.48 },
+                "200 im": { boys: 114.00, girls: 126.12 }
+            }
         };
 
         
@@ -1254,6 +1624,7 @@
                         }
                     }
                     renderSchools(); renderEvents(); renderSwimmers(); populateDropdowns(); updateNextEventNumber(); renderDashSchoolTable(); calculateStandings();
+                    if (typeof applyReportFontSize === 'function') applyReportFontSize(state.settings ? state.settings.reportFontSize : '9pt');
                     // One-time fix for existing swimmers with incorrect age groups
                     let fixed = false;
                     state.swimmers.forEach(s => {
@@ -1814,18 +2185,24 @@
         }
 
         function renderSwimmers() {
-            document.getElementById('swimmer-table-body').innerHTML = state.swimmers.map(s => `
+            document.getElementById('swimmer-table-body').innerHTML = state.swimmers.map(s => {
+                const g = s.gender || 'Boys';
+                const gClass = (g === 'Girls' || g === 'Female' || g === 'f') ? 'badge-girl' : 'badge-boy';
+                const age = s.age || 'Under 20';
+                return `
                 <tr onclick="editSwimmer(${s.id})">
-                    <td>${s.short || s.full}</td>
-                    <td>${s.school}</td>
-                    <td>${s.age}</td>
+                    <td style="font-weight:600">${s.short || s.full}</td>
+                    <td><span class="badge ${gClass}">${g}</span></td>
+                    <td>${s.school || ''}</td>
+                    <td><span style="font-weight:600; color:var(--primary-light)">${age}</span></td>
                     <td>${s.evs.map(x=>getEventName(x.no)).join(', ')}</td>
                     <td>
                         <button class="btn-secondary" onclick="event.stopPropagation(); deleteSwimmer(${s.id})" style="padding:4px; border-radius:8px; color:var(--error); border-color:rgba(239, 68, 68, 0.2)">
                             <ion-icon name="trash-outline"></ion-icon>
                         </button>
                     </td>
-                </tr>`).join('');
+                </tr>`;
+            }).join('');
         }
 
         function deleteSwimmer(id) {
@@ -1884,12 +2261,15 @@
             `;
 
             list.forEach((s, i) => {
+                const g = s.gender || 'Boys';
+                const gClass = (g === 'Girls' || g === 'Female' || g === 'f') ? 'badge-girl' : 'badge-boy';
+                const age = s.age || 'Under 20';
                 html += `<tr>
                     <td style="width:40px; text-align:center">${i+1}</td>
                     <td style="font-weight:600; width:220px">${s.full}</td>
-                    <td style="width:70px">${s.gender}</td>
-                    <td style="width:250px">${s.school}</td>
-                    <td style="width:80px; text-align:center">${s.age}</td>
+                    <td style="width:70px"><span class="badge ${gClass}">${g}</span></td>
+                    <td style="width:250px">${s.school || ''}</td>
+                    <td style="width:80px; text-align:center; font-weight:600; color:var(--primary-light)">${age}</td>
                     <td style="text-align:right">${s.evs.map(x=>getEventName(x.no)).join(', ')}</td>
                 </tr>`;
             });
@@ -1901,9 +2281,9 @@
         }
 
                 // --- AquaFlow Seeding Algorithm ---
-        // 1. Seed Time Ascending (Fastest swimmers seeded into fast heats)
-        // 2. Anti-Clustering: Distribute swimmers from the same school across different heats when NT/equal times
-        // 3. Strict HY-TEK Lane Order (8 Lanes: 4, 5, 3, 6, 2, 7, 1, 8 | 6 Lanes: 3, 4, 2, 5, 1, 6)
+        // 1. Seed Time Ascending (Fastest swimmers seeded into fastest heats & center lanes 4, 5, 3, 6, 2, 7, 1, 8)
+        // 2. Anti-Clustering: Interleave swimmers with equal/NT times from the same school (alphabetical + school mix)
+        // 3. Dynamic Heat/Final Labelling: <= 8 swimmers => "Final", > 8 swimmers => "Heat 1 of N", "Heat 2 of N"
         function seedEventSwimmers(swimmers, no, lanesCount) {
             if (!swimmers || swimmers.length === 0) return [];
             
@@ -1925,19 +2305,19 @@
                 }
             });
 
-            // Primary Sort: Seeded swimmers by time ascending
+            // Primary Sort: Seeded swimmers by time ascending (fastest first)
             seeded.sort((a, b) => a.sec - b.sec);
 
-            // Interleave unseeded swimmers by school so no 2 swimmers from the same school are adjacent
+            // Interleave unseeded / NT swimmers by school alphabetically to prevent clustering
             let schoolGroups = {};
             unseeded.forEach(item => {
-                const sch = item.sw.school || 'Unknown';
+                const sch = (item.sw.school || 'Unknown').trim();
                 if (!schoolGroups[sch]) schoolGroups[sch] = [];
                 schoolGroups[sch].push(item);
             });
 
             let interleavedUnseeded = [];
-            let schoolNames = Object.keys(schoolGroups);
+            let schoolNames = Object.keys(schoolGroups).sort((a, b) => a.localeCompare(b));
             let maxLen = schoolNames.length > 0 ? Math.max(...schoolNames.map(n => schoolGroups[n].length)) : 0;
 
             for (let i = 0; i < maxLen; i++) {
@@ -1999,13 +2379,14 @@
             if(!ev) return "";
             const swimmers = state.swimmers.filter(s=>s.evs.some(x=>x.no===no));
             
-            
             const rec = state.records ? state.records[no] : null;
             const provRec = rec && rec.provincial ? rec.provincial : null;
             const natRec = rec && rec.national ? rec.national : null;
 
-            const laneConfig = state.settings.lanes == 8 ? [4,5,3,6,2,7,1,8] : [3,4,2,5,1,6];
-            const rawHeats = seedEventSwimmers(swimmers, no, state.settings.lanes || 8);
+            const lanesCount = state.settings.lanes || 8;
+            const laneConfig = lanesCount == 8 ? [4,5,3,6,2,7,1,8] : [3,4,2,5,1,6];
+            const rawHeats = seedEventSwimmers(swimmers, no, lanesCount);
+            const isFinalOnly = swimmers.length <= lanesCount;
             
             let html = `
                 <div class="hytek-event-block" style="margin-top: 20px;">
@@ -2014,9 +2395,11 @@
                         <p style="font-size: 0.9rem;">At ${state.settings.meetPlace || 'Meet Venue'}, ${state.settings.meetDate || 'Meet Date'}</p>
                     </div>
 
-                    <div class="hytek-event-title printable" style="background: #e0e0e0; border: 1px solid black; color: black; padding: 4px 10px; margin-top: 5px;">
+                    <div class="hytek-event-title printable" style="background: #e0e0e0; border: 1px solid black; color: black; padding: 4px 10px; margin-top: 5px; display:flex; justify-content:space-between; align-items:center;">
                         <span>Event ${ev.no} &nbsp;&nbsp;&nbsp; ${ev.gender} ${ev.age} ${ev.name}</span>
-                        <span>Heats/Finals</span>
+                        <span style="font-weight:700; text-transform:uppercase; background:${isFinalOnly ? '#15803d' : '#0284c7'}; color:white; padding:2px 8px; border-radius:4px; font-size:0.8rem;">
+                            ${isFinalOnly ? 'Final' : 'Heats'}
+                        </span>
                     </div>
 
                     <div style="font-size: 0.75rem; padding: 2px 5px; border: 1px solid black; border-top: none; color: black; margin-bottom: 10px;">
@@ -2030,28 +2413,57 @@
                 return html;
             }
 
-
-
             rawHeats.forEach((heatList, hIndex) => {
                 const h = hIndex + 1;
                 let laneData = {};
                 heatList.forEach((sw, i) => laneData[laneConfig[i]] = sw);
 
-                html += `<div class="hytek-heat-label" style="font-weight: bold; margin-top: 10px;">Heat ${h} of ${rawHeats.length}</div>
+                const heatLabel = isFinalOnly ? `Final` : `Heat ${h} of ${rawHeats.length}`;
+
+                // Interactive 3D Pool Lane Visualizer
+                html += `
+                <div class="pool-visualizer no-print">
+                    <div class="pool-water-overlay"></div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; position:relative; z-index:1;">
+                        <span style="font-weight:800; font-size:1.05rem; color:#38bdf8; display:flex; align-items:center; gap:6px;">
+                            <ion-icon name="water-outline"></ion-icon> 3D Pool Lane Visualizer — ${heatLabel}
+                        </span>
+                        <span style="font-size:0.8rem; color:#94a3b8;">${lanesCount} Lanes Configured</span>
+                    </div>
+                    <div class="pool-lanes-container">
+                        ${Array.from({length: lanesCount}, (_, idx) => idx + 1).map(l => {
+                            const s = laneData[l];
+                            const seedT = s ? (s.evs.find(x=>x.no===no)?.t || 'NT') : 'Empty';
+                            return `
+                            <div class="pool-lane-row" style="${!s ? 'opacity:0.45;' : ''}">
+                                <div class="pool-block-number">${l}</div>
+                                <div class="pool-swimmer-info">
+                                    <div>
+                                        <div class="pool-swimmer-name">${s ? (s.short || s.full) : 'Empty Lane'}</div>
+                                        <div class="pool-swimmer-meta">${s ? (s.school || 'Unattached') : ''}</div>
+                                    </div>
+                                    <div class="pool-seed-badge">${seedT}</div>
+                                </div>
+                            </div>`;
+                        }).join('')}
+                    </div>
+                </div>`;
+
+                html += `<div class="hytek-heat-label" style="font-weight: bold; margin-top: 10px; font-size:0.95rem; color:var(--primary-light);">${heatLabel}</div>
                 <table class="hytek-table">
-                    <thead><tr><th style="width:50px; text-align: center;">Lane</th><th>Name</th><th style="width:50px; text-align: center;">Age</th><th>Team</th><th style="width:100px; text-align:right;">Seed Time</th></tr></thead>
+                    <thead><tr><th style="width:50px; text-align: center;">Lane</th><th>Name</th><th style="width:50px; text-align: center;">Age</th><th>Team / School</th><th style="width:100px; text-align:right;">Seed Time</th></tr></thead>
                     <tbody>`;
                 
-                for(let l=1; l<=state.settings.lanes; l++) {
+                for(let l=1; l<=lanesCount; l++) {
                     const s = laneData[l];
                     const birthYearMatch = s && s.dob ? s.dob.match(/\d{4}/) : null;
                     const ageValue = birthYearMatch ? (2026 - parseInt(birthYearMatch[0])) : '';
                     html += `<tr>
-                        <td style="text-align: center;">${l}</td>
+                        <td style="text-align: center; font-weight:700;">${l}</td>
                         <td>${s ? s.short : ''}</td>
                         <td style="text-align: center;">${ageValue}</td>
                         <td>${s ? s.school : ''}</td>
-                        <td style="text-align:right;">${s ? (s.evs.find(x=>x.no===no).t || 'NT') : ''}</td>
+                        <td style="text-align:right; font-weight:600;">${s ? (s.evs.find(x=>x.no===no).t || 'NT') : ''}</td>
                     </tr>`;
                 }
                 html += `</tbody></table>`;
@@ -2316,7 +2728,16 @@
             const ev = state.events.find(e => e.no === no);
             const rec = state.records ? state.records[no] : null;
             const refRec = rec ? (rec.national || rec.provincial || rec.meet) : null;
-            const baseSec = refRec ? tToSec(refRec.t) : 0;
+            let baseSec = refRec ? tToSec(refRec.t) : 0;
+
+            // Fallback to World Aquatics Base Times database if no local record exists
+            if ((!baseSec || baseSec >= 999999) && ev && ev.name) {
+                const evKey = ev.name.toLowerCase().trim();
+                const gKey = (ev.gender || "").toLowerCase().includes('girl') ? 'girls' : 'boys';
+                if (state.worldRecords && state.worldRecords[evKey] && state.worldRecords[evKey][gKey]) {
+                    baseSec = state.worldRecords[evKey][gKey];
+                }
+            }
 
             const rows = document.querySelectorAll('#result-entry-area table tbody tr');
             const finaBaseEl = document.getElementById('res-fina-pts');
@@ -2347,24 +2768,41 @@
 
             const best = times[0];
 
+            // Official World Aquatics / FINA Points Formula: P = floor(1000 * (B / T)^3)
+            function calculateFinaPoints(baseTimeSec, swimmerTimeSec) {
+                if (!baseTimeSec || !swimmerTimeSec || baseTimeSec <= 0 || swimmerTimeSec <= 0 || swimmerTimeSec >= 999999) return 0;
+                return Math.floor(1000 * Math.pow(baseTimeSec / swimmerTimeSec, 3));
+            }
+
             // If baseFinaVal is not set, but we have a Reference Record Time (Base Time) and 1st place swimmer time
             if ((!baseFinaVal || baseFinaVal <= 0) && baseSec > 0 && baseSec < 999999 && best.s > 0) {
-                baseFinaVal = Math.floor(1000 * Math.pow(baseSec / best.s, 3));
+                baseFinaVal = calculateFinaPoints(baseSec, best.s);
                 if (finaBaseEl && baseFinaVal > 0) {
                     finaBaseEl.value = baseFinaVal;
                 }
             }
 
-            // Update each swimmer's row & calculate FINA points
-            times.forEach(tItem => {
-                const isBest = (tItem === best);
+            // Update each swimmer's row & calculate FINA points with 1st, 2nd, 3rd Medal Badges
+            times.forEach((tItem, idx) => {
                 const statusCell = tItem.row.querySelector('.r-status-cell');
 
-                if (isBest) {
-                    tItem.row.style.background = 'rgba(234, 179, 8, 0.15)';
-                    tItem.row.style.boxShadow = 'inset 0 0 10px rgba(234, 179, 8, 0.2)';
+                if (idx === 0) {
+                    tItem.row.style.background = 'rgba(245, 158, 11, 0.12)';
+                    tItem.row.style.boxShadow = 'inset 0 0 12px rgba(245, 158, 11, 0.25)';
                     if (statusCell) {
-                        statusCell.innerHTML = `<span style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 2px 7px; border-radius: 10px; font-size: 0.7rem; font-weight: 800; display: inline-flex; align-items: center; gap: 3px; box-shadow: 0 2px 5px rgba(245, 158, 11, 0.4);"><ion-icon name="trophy"></ion-icon> BEST</span>`;
+                        statusCell.innerHTML = `<span class="medal-badge gold"><ion-icon name="trophy"></ion-icon> 1st Gold</span>`;
+                    }
+                } else if (idx === 1) {
+                    tItem.row.style.background = 'rgba(203, 213, 225, 0.08)';
+                    tItem.row.style.boxShadow = '';
+                    if (statusCell) {
+                        statusCell.innerHTML = `<span class="medal-badge silver"><ion-icon name="medal"></ion-icon> 2nd Silver</span>`;
+                    }
+                } else if (idx === 2) {
+                    tItem.row.style.background = 'rgba(217, 119, 6, 0.08)';
+                    tItem.row.style.boxShadow = '';
+                    if (statusCell) {
+                        statusCell.innerHTML = `<span class="medal-badge bronze"><ion-icon name="medal"></ion-icon> 3rd Bronze</span>`;
                     }
                 } else {
                     tItem.row.style.background = '';
@@ -2372,13 +2810,13 @@
                     if (statusCell) statusCell.innerHTML = '';
                 }
 
-                // Dynamic FINA Points calculation for each swimmer
+                // Dynamic World Aquatics / FINA Points calculation for each swimmer
                 if (tItem.finaInp) {
                     let calcPts = 0;
                     if (baseSec > 0 && baseSec < 999999) {
-                        calcPts = Math.floor(1000 * Math.pow(baseSec / tItem.s, 3));
+                        calcPts = calculateFinaPoints(baseSec, tItem.s);
                     } else if (baseFinaVal > 0 && best.s > 0) {
-                        calcPts = Math.round(baseFinaVal * Math.pow(best.s / tItem.s, 3));
+                        calcPts = Math.floor(baseFinaVal * Math.pow(best.s / tItem.s, 3));
                     }
 
                     if (calcPts > 0 && !tItem.finaInp.dataset.userEdited) {
@@ -2440,8 +2878,14 @@
                             const val = resItem ? resItem.t : "";
                             const finaVal = resItem ? (resItem.finaPts || "") : "";
                             return `<tr>
-                                <td style="font-size:0.8rem; color:var(--text-dim)">H${s.h} L${s.l}</td>
-                                <td>${s.short}</td>
+                                <td>
+                                    <div style="font-weight:600;">${s.short || s.full}</div>
+                                    <div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px; display:flex; align-items:center; gap:4px;">
+                                        <span class="badge ${s.gender === 'Girls' || s.gender === 'Female' ? 'badge-girl' : 'badge-boy'}" style="font-size:0.65rem; padding:1px 5px;">${s.gender || 'Boys'}</span>
+                                        <span>${s.age || ''}</span>
+                                        <span>• ${s.school || ''}</span>
+                                    </div>
+                                </td>
                                 <td style="color:var(--primary-light); font-weight:600;">${seedTime}</td>
                                 <td>
                                     <input type="text" onfocus="if(this.value==='0' || this.value==='NT') this.value=''; this.select();" 
@@ -2472,7 +2916,7 @@
                         <input type="number" id="res-fina-pts" value="${savedFina}" placeholder="Ex: 520" 
                             oninput="updateFinaAndBestPerformer(${no})" 
                             style="width:130px; font-weight:700; text-align:center; padding:0.6rem;">
-                        <button class="btn btn-primary" onclick="calcRes(${no})">
+                        <button class="water-btn water-primary" onclick="calcRes(${no})">
                             <ion-icon name="save-outline"></ion-icon> Calculate & Save Results
                         </button>
                     </div>
@@ -3345,6 +3789,12 @@
             }
         }
 
+        function applyReportFontSize(size) {
+            if (!size) size = '9pt';
+            document.documentElement.style.setProperty('--report-font-size', size);
+            if (state && state.settings) state.settings.reportFontSize = size;
+        }
+
         function loadSettingsIntoForm() {
             document.getElementById('set-meet-name').value = state.settings.meetName || "";
             document.getElementById('set-meet-date').value = state.settings.meetDate || "";
@@ -3352,10 +3802,12 @@
             document.getElementById('set-meet-lanes').value = state.settings.lanes || 8;
             
             document.getElementById('set-team-label').value = state.settings.teamLabel || "School";
+            const fontSel = document.getElementById('set-report-font-size');
+            if (fontSel) fontSel.value = state.settings.reportFontSize || "9pt";
+            applyReportFontSize(state.settings.reportFontSize || "9pt");
+
             document.getElementById('set-admin-user').value = state.settings.username || "admin";
             document.getElementById('set-admin-pass').value = state.settings.password || "aqua@2026";
-            
-            
             
             if (state.settings.points) {
                 const ptsI = state.settings.points.indiv || [10,7,5,4,3,2,1,0];
@@ -3379,6 +3831,12 @@
             state.settings.lanes = parseInt(document.getElementById('set-meet-lanes').value);
             
             state.settings.teamLabel = document.getElementById('set-team-label').value;
+            const fontSel = document.getElementById('set-report-font-size');
+            if (fontSel) {
+                state.settings.reportFontSize = fontSel.value;
+                applyReportFontSize(fontSel.value);
+            }
+
             state.settings.username = document.getElementById('set-admin-user').value;
             state.settings.password = document.getElementById('set-admin-pass').value;
             
@@ -3393,7 +3851,31 @@
             saveData(); showToast("Settings Saved");
         }
 
-        function showToast(m) { const t = document.getElementById('toast'); t.innerText = m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 2000); }
+        function showToast(m) {
+            const t    = document.getElementById('toast');
+            const txt  = document.getElementById('toast-text');
+            const icon = document.getElementById('toast-check-icon');
+
+            // Update text
+            if (txt) txt.innerText = m;
+
+            // Replay the success-check animation cleanly
+            if (icon) {
+                icon.setAttribute('data-state', 'out');
+                requestAnimationFrame(() => {
+                    void icon.offsetWidth; // force reflow
+                    icon.setAttribute('data-state', 'in');
+                });
+            }
+
+            // Show toast
+            t.classList.add('show');
+            clearTimeout(t._hideTimer);
+            t._hideTimer = setTimeout(() => {
+                t.classList.remove('show');
+                if (icon) setTimeout(() => icon.setAttribute('data-state', 'out'), 400);
+            }, 2500);
+        }
 
         function exportData() {
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state));
@@ -3733,11 +4215,38 @@
             reader.readAsArrayBuffer(file);
         }
 
+        // Global Water Button Ripple Effect
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('.water-btn');
+            if (!btn) return;
+
+            const rect = btn.getBoundingClientRect();
+            const circle = document.createElement('span');
+            const diameter = Math.max(rect.width, rect.height);
+            const radius = diameter / 2;
+
+            circle.style.width = circle.style.height = `${diameter}px`;
+            circle.style.left = `${e.clientX - rect.left - radius}px`;
+            circle.style.top = `${e.clientY - rect.top - radius}px`;
+            circle.classList.add('water-ripple');
+
+            const existingRipple = btn.querySelector('.water-ripple');
+            if (existingRipple) existingRipple.remove();
+
+            btn.appendChild(circle);
+            setTimeout(() => circle.remove(), 650);
+        });
+
         window.onload = () => {
             checkAuth();
             loadData();
         };
-        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleString(); }, 1000);
+        setInterval(() => { 
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString();
+            const dateStr = now.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+            document.getElementById('clock').innerHTML = `<ion-icon name="stopwatch-outline" style="font-size:1.2rem; color:#38bdf8;"></ion-icon> <span>${dateStr} | ${timeStr}</span>`; 
+        }, 1000);
     </script>
 </body>
 </html>
