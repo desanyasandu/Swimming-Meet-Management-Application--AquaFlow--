@@ -1,8 +1,8 @@
 # 🌊 AquaFlow / Athlete Prime | Swimming & Athletics Meet Management System
 
-[![AquaFlow](https://img.shields.io/badge/AquaFlow-v3.0%20Pro-0284c7?style=for-the-badge&logo=water)](index.html)
-[![Single File Application](https://img.shields.io/badge/Architecture-Single%20File%20SPA-0ea5e9?style=for-the-badge&logo=html5)](index.html)
-[![Offline First](https://img.shields.io/badge/Storage-IndexedDB%20Offline-f59e0b?style=for-the-badge&logo=databricks)](index.html)
+[![AquaFlow](https://img.shields.io/badge/AquaFlow-v3.0%20Pro-0284c7?style=for-the-badge&logo=water)](Swimming-Meet-Management-Application--AquaFlow--main/index.html)
+[![Single File Application](https://img.shields.io/badge/Architecture-Single%20File%20SPA-0ea5e9?style=for-the-badge&logo=html5)](Swimming-Meet-Management-Application--AquaFlow--main/index.html)
+[![Offline First](https://img.shields.io/badge/Storage-IndexedDB%20Offline-f59e0b?style=for-the-badge&logo=databricks)](Swimming-Meet-Management-Application--AquaFlow--main/index.html)
 [![License: MIT](https://img.shields.io/badge/License-MIT-purple?style=for-the-badge)](README.md)
 
 **AquaFlow** (also featuring **Athlete Prime**) is an all-in-one, high-performance, single-file web application built for the organization and administration of competitive **Swimming**, **Athletics (Track & Field)**, and **Combined Multi-Sport Meets**. 
@@ -38,7 +38,7 @@ Engineered with zero backend dependencies, AquaFlow runs directly inside any mod
 
 ## ⚡ Key Highlights
 
-- **Single-File Portability**: The entire system lives inside a standalone HTML document ([index.html](index.html)). Simply copy or double-click to run anywhere—no Node.js server, Python environment, Docker containers, or database installations required.
+- **Single-File Portability**: The entire system lives inside a standalone HTML document ([index.html](Swimming-Meet-Management-Application--AquaFlow--main/index.html)). Simply copy or double-click to run anywhere—no Node.js server, Python environment, Docker containers, or database installations required.
 - **Offline-First Storage**: Uses browser **IndexedDB** (`AthletePrimeDB` / `AquaFlowDB`) to store all state locally with automatic database schema upgrades, instant autosave, and zero network requirement.
 - **Multi-Sport Engine**: Native support for:
   - **Swimming Meets** (Freestyle, Backstroke, Breaststroke, Butterfly, Individual Medley, Relays).
@@ -312,7 +312,7 @@ Sorting Rule:
 ## 🚀 Quick Start Guide
 
 ### Step 1: Open Application
-Double-click [index.html](index.html) in Google Chrome, Microsoft Edge, Mozilla Firefox, or Brave.
+Double-click [index.html](Swimming-Meet-Management-Application--AquaFlow--main/index.html) in Google Chrome, Microsoft Edge, Mozilla Firefox, or Brave.
 
 ### Step 2: Sign In
 - **Username**: `admin`
